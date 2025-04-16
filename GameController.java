@@ -22,8 +22,8 @@ public class GameController {
 
 
 
-    public Player getCurrentActor() {
-        return currentActor.getCurrentActor();
+    public Actor getCurrentActor() {
+        return currentActor;
     }
 
 }

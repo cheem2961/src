@@ -40,28 +40,28 @@ public class Game extends Application {
 
     }
 
-    private void gameLoop(Scene scene, Player player1) {
+    private void gameLoop(Scene scene, Actor actor) {
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case A:
-                    player1.swapHands(Direction.LEFT);
-                    System.out.println(player1);
+                    actor.getCurrentPlayer().swapHands(Direction.LEFT);
+                    System.out.println(actor.getCurrentPlayer());
                     break;
                 case D:
-                    player1.swapHands(Direction.RIGHT);
-                    System.out.println(player1);
+                    actor.getCurrentPlayer().swapHands(Direction.RIGHT);
+                    System.out.println(actor.getCurrentPlayer());
                     break;
                 default:
                     break;
             }
 
             // Optional: redraw after input
-            this.drawGame(player1);
+            this.drawGame(actor);
         });
     }
 
 
-    public void drawGame(Player player1) {
+    public void drawGame(Actor actor) {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
         gc.clearRect((double)0.0F, (double)0.0F, this.canvas.getWidth(), this.canvas.getHeight());
         gc.setFill(Color.GRAY);
@@ -70,7 +70,7 @@ public class Game extends Application {
         //values
         gc.setFill(Color.WHITE); // Text color
         gc.setFont(javafx.scene.text.Font.font("Arial", 48));
-        gc.fillText(player1.toString(), 100, 700);
+        gc.fillText(actor.getCurrentPlayer().toString(), 100, 700);
 
     }
 

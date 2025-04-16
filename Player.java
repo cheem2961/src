@@ -6,8 +6,8 @@ public class Player {
     private String displayName;
     private int handAmount = 2;
     private int modFingers;
-
     private boolean isAlive;
+
 
     private ArrayList<Hand> handArrayList = new ArrayList<>();
 
@@ -42,8 +42,6 @@ public class Player {
     public void swapHands(Direction aDirection){
         Hand handFrom;
         Hand handTo;
-
-
         switch(aDirection){
             case LEFT: //move 1 from right hand to left hand
                 handFrom = handArrayList.get(1);
@@ -71,6 +69,15 @@ public class Player {
     // check a finger swap does not result in an empty or more than full hand
     public boolean checkValidSwap(Hand handFrom, Hand handTo){
         return !(handFrom.getCurFingers() <= 0 || handTo.getCurFingers() >= modFingers - 1 );
+    }
+    public String getDisplayName() {
+        return displayName;
+    }
+    public ArrayList<Hand> getHandArrayList() {
+        return handArrayList;
+    }
+    public int getModFingers() {
+        return modFingers;
     }
 
     @Override
