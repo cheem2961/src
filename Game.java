@@ -27,7 +27,7 @@ public class Game extends Application {
 
 
 
-        Scene scene = new Scene(this.buildScene(), (double)800.0F, (double)800.0F);
+        Scene scene = new Scene(this.buildScene(), (double)200.0F, (double)200.0F);
 
 
         this.drawGame(gameController.getCurrentActor());
