@@ -5,22 +5,23 @@ public class Player {
     private int playerNumber;
     private String displayName;
     private int handAmount = 2;
-    private int modFingers = 5;
+    private int modFingers;
 
     private boolean isAlive;
 
     private ArrayList<Hand> handArrayList = new ArrayList<>();
 
 
-    public Player(String aDisplayName) {
+    public Player(String aDisplayName, int aModFingers) {
         this.playerNumber = currentPlayer;
         currentPlayer++;
         this.displayName = aDisplayName;
+        this.modFingers = aModFingers;
         this.isAlive = true;
 
         // create hands and add to handArrayList
         for(int i = 0; i <= handAmount; i++){
-            handArrayList.add(new Hand(this.modFingers));
+            handArrayList.add(new Hand(this.modFingers,1));
         }
     }
 

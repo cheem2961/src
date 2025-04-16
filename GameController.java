@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class GameController {
     private ArrayList<Player> players = new ArrayList<>();
     private int playerCount = 2;
+    private int modFingers = 5;
 
     private Actor currentActor;
 
@@ -11,9 +12,10 @@ public class GameController {
 
     }
 
+    //making the players
     public void setup() {
         for (int i = 1; i <= this.playerCount; i++) {
-            this.players.add(new Player(String.valueOf(i)));
+            this.players.add(new Player(String.valueOf(i),this.modFingers));
         }
         currentActor = new Actor(players.get(0));
     }

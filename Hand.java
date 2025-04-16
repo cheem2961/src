@@ -3,9 +3,9 @@ public class Hand {
     private int curFingers;
     private int prevFingers;
 
-    public Hand(int aMaxFingers) {
-        this.modFingers = aMaxFingers;
-        this.curFingers = 1;
+    public Hand(int aModFingers, int aCurFingers) {
+        this.modFingers = aModFingers;
+        this.curFingers = aCurFingers;
         this.prevFingers = curFingers;
     }
 
