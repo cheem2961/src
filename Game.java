@@ -8,8 +8,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Game extends Application {
-    private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 800;
+    private static final double WINDOW_WIDTH = 800f;
+    private static final double WINDOW_HEIGHT = 800f;
     private static final int CANVAS_WIDTH = 800;
     private static final int CANVAS_HEIGHT = 800;
     private Canvas canvas;
@@ -27,7 +27,7 @@ public class Game extends Application {
 
 
 
-        Scene scene = new Scene(this.buildScene(), (double)200.0F, (double)200.0F);
+        Scene scene = new Scene(this.buildScene(), WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
         this.drawGame(gameController.getCurrentActor());
