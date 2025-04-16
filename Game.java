@@ -67,10 +67,20 @@ public class Game extends Application {
         gc.setFill(Color.GRAY);
         gc.fillRect((double)0.0F, (double)0.0F, this.canvas.getWidth(), this.canvas.getHeight());
 
-        //values
+        //current player's finger values
         gc.setFill(Color.WHITE); // Text color
         gc.setFont(javafx.scene.text.Font.font("Arial", 48));
         gc.fillText(actor.getCurrentPlayer().toString(), 100, 700);
+
+        // display current player's (actors) name
+        gc.setFill(Color.WHITE); // Text color
+        gc.setFont(javafx.scene.text.Font.font("Arial", 30));
+        gc.fillText("player: " + actor.getCurrentPlayer().getDisplayName(), 350, 740);
+
+        // display other player's finger values
+
+
+        // display other player's name
 
     }
 
