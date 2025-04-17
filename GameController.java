@@ -122,14 +122,17 @@ public class GameController {
                     //turn on tapping mode
                     //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
                     //find number of fingers being tapped with
+                    break;
                 case E:
                     //tap wth current player's right hand
                     //same as above
+                    break;
                 case SPACE:
                     //confirm
                     //check final swap is valid
                     //run end of turn procedure
                     tryEndTurn();
+                    break;
 
                 default:
                     break;
