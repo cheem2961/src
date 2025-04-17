@@ -27,13 +27,13 @@ public class GameController {
     //making the players
     public void setup() {
         for (int i = 1; i <= this.playerCount; i++) {
-            this.players.add(new Player(String.valueOf(i),this.modFingers));
+            this.players.add(new Player(String.valueOf(i), this.modFingers));
         }
         currentPlayer = this.players.get(turnIndex);
-        opponentPlayer = this.players.get(turnIndex+1 % this.playerCount);
+        opponentPlayer = this.players.get(turnIndex + 1 % this.playerCount);
 
 
-        playerHandImages = new Image[] {
+        playerHandImages = new Image[]{
                 new Image("L0.png"),
                 new Image("L1.png"),
                 new Image("L2.png"),
@@ -48,7 +48,7 @@ public class GameController {
                 new Image("R5.png")
         };
 
-        backgroundImages = new Image[] {
+        backgroundImages = new Image[]{
                 new Image("carpet.jpg")
         };
     }
@@ -66,11 +66,9 @@ public class GameController {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //refreshes screen
-        gc.clearRect((double)0.0F, (double)0.0F, canvas.getWidth(), canvas.getHeight());
+        gc.clearRect((double) 0.0F, (double) 0.0F, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.DARKSLATEGRAY);
-        gc.fillRect((double)0.0F, (double)0.0F, canvas.getWidth(), canvas.getHeight());
-
-
+        gc.fillRect((double) 0.0F, (double) 0.0F, canvas.getWidth(), canvas.getHeight());
 
 
         //DRAW IMAGES
@@ -80,13 +78,12 @@ public class GameController {
         //gc.drawImage(backgroundImages[0], -400, -400,1600,1600);
 
         //curent players hands
-        gc.drawImage(playerHandImages[currentPlayer.getLeftHandAmount()], -260, 350, 650 * 1.4,650); //left hand
-        gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 6], 150, 350, 650 * 1.4,650); //right hand
+        gc.drawImage(playerHandImages[currentPlayer.getLeftHandAmount()], -260, 350, 650 * 1.4, 650); //left hand
+        gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 6], 150, 350, 650 * 1.4, 650); //right hand
 
         //opponents hands
-        gc.drawImage(playerHandImages[opponentPlayer.getLeftHandAmount()], -260, 440, (650 * 1.4),-650); //right hand (top left of the screen)
-        gc.drawImage(playerHandImages[opponentPlayer.getRightHandAmount() + 6], 140, 440, 650 * 1.4,-650); //(left hand (top right of the screen
-
+        gc.drawImage(playerHandImages[opponentPlayer.getLeftHandAmount()], -260, 440, (650 * 1.4), -650); //right hand (top left of the screen)
+        gc.drawImage(playerHandImages[opponentPlayer.getRightHandAmount() + 6], 140, 440, 650 * 1.4, -650); //(left hand (top right of the screen
 
 
         // display current player's (actors) name
@@ -100,42 +97,44 @@ public class GameController {
         gc.fillText("player: " + opponentPlayer.getDisplayName(), 350, 200);
     }
 
-    public void tryEndTurn(){
+    public void tryEndTurn() {
         boolean validMove = currentPlayer.checkHandsChanged() & !currentPlayer.checkSymetricSwap();
-        if(validMove){
+        if (validMove) {
             endTurn();
-        }
-        else{
+        } else {
             System.out.println("invalid move, turn could not be ended");
         }
     }
 
-    public void endTurn(){
+    public void endTurn() {
         //loop through players
         for (Player player : players) {
             //update prev fingers
             player.turnEnd();
         }
+        //draw eveything
+        
+        wait(400); //pause
         //switch players
         this.turnIndex = (this.turnIndex + 1) % this.playerCount;
         this.currentPlayer = this.players.get(turnIndex);
-        opponentPlayer = this.players.get((turnIndex+1 )% this.playerCount);
+        this.opponentPlayer = this.players.get((turnIndex + 1) % this.playerCount);
         System.out.println("turn ended. Player turn index: " + this.turnIndex);
     }
 
-    public void checkOpponentDeath(){
+    public void checkOpponentDeath() {
         System.out.println("Opponent death has been checked. total fingers = " + opponentPlayer.totalFingers());
-        if (opponentPlayer.totalFingers()==0) {
+        if (opponentPlayer.totalFingers() == 0) {
             System.out.println("player " + opponentPlayer.getDisplayName() + " is dead, player " + currentPlayer.getDisplayName() + "has won");
             endTurn();
         }
     }
 
-    public void endRound(){
+    public void endRound() {
         System.out.println("Round ended");
     }
 
-    public void tapLeft(){
+    public void tapLeft() {
         if (opponentPlayer.getLeftHandAmount() != 0) {
             int newFingers = (opponentPlayer.getLeftHandAmount() + tapAmount) % modFingers;
             opponentPlayer.setLeftHandAmount(newFingers);
@@ -143,22 +142,20 @@ public class GameController {
             tappingMode = false;
             checkOpponentDeath();
             endTurn();
-        }
-        else{
+        } else {
             System.out.println("couldnt tap opponent's left hand becuase it is empty");
         }
     }
 
-    public void tapRight(){
-        if (opponentPlayer.getRightHandAmount()!=0){
+    public void tapRight() {
+        if (opponentPlayer.getRightHandAmount() != 0) {
             int newFingers = (opponentPlayer.getRightHandAmount() + tapAmount) % modFingers;
             opponentPlayer.setRightHandAmount(newFingers);
             System.out.println("tapping opponents right hand to give new value of " + newFingers);
             tappingMode = false;
             checkOpponentDeath();
             endTurn();
-        }
-        else{
+        } else {
             System.out.println("couldnt tap opponent's right hand becuase it is empty");
         }
     }
@@ -169,8 +166,7 @@ public class GameController {
                 case A:
                     if (tappingMode) {
                         tapLeft();
-                    }
-                    else {
+                    } else {
                         this.currentPlayer.swapHands(Direction.LEFT);
                         System.out.println("Swapped hands LEFT");
                     }
@@ -178,26 +174,25 @@ public class GameController {
                 case D:
                     if (tappingMode) {
                         tapRight();
-                    }
-                    else {
+                    } else {
                         this.currentPlayer.swapHands(Direction.RIGHT);
                         System.out.println("Swapped hands RIGHT");
                     }
                     break;
                 case Q:
                     //tap wth current player's left hand
-                    if(!currentPlayer.checkHandsChanged() & !(currentPlayer.getLeftHandAmount()==0)) { //check no swaps have been made
+                    if (!currentPlayer.checkHandsChanged() & !(currentPlayer.getLeftHandAmount() == 0)) { //check no swaps have been made
                         tappingMode = true; //turn on tapping mode
                         tapAmount = currentPlayer.getLeftHandAmount();
-                        System.out.println("tapping mode with left hand and "+tapAmount+" fingers");
+                        System.out.println("tapping mode with left hand and " + tapAmount + " fingers");
                     }
                     break;
                 case E:
                     //tap wth current player's right hand
-                    if(!currentPlayer.checkHandsChanged() & !(currentPlayer.getRightHandAmount()==0)) { //check no swaps have been made
+                    if (!currentPlayer.checkHandsChanged() & !(currentPlayer.getRightHandAmount() == 0)) { //check no swaps have been made
                         tappingMode = true; //turn on tapping mode
                         tapAmount = currentPlayer.getRightHandAmount();
-                        System.out.println("tapping mode with right hand and "+tapAmount+" fingers");
+                        System.out.println("tapping mode with right hand and " + tapAmount + " fingers");
                     }
                     break;
                 case SPACE:
@@ -214,5 +209,14 @@ public class GameController {
             // Optional: redraw after input
             //this.drawGame(actor);
         });
+    }
+
+
+    public static void wait(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
