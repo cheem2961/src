@@ -25,7 +25,7 @@ public class Player {
         }
     }
 
-    
+
     public void turnEnd(){
         for(Hand hand : handArrayList){
             hand.turnEnd();

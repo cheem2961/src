@@ -92,6 +92,8 @@ public class GameController {
         }
         //switch players
         this.turnIndex = (this.turnIndex + 1) % this.playerCount;
+        this.currentPlayer = this.players.get(turnIndex);
+        System.out.println("turn ended. Player turn index: " + this.turnIndex);
     }
 
     public void keyListen(Scene scene) {
@@ -117,7 +119,8 @@ public class GameController {
                 case SPACE:
                     //confirm
                     //check final swap is valid
-                    //run end of turn procedure:
+                    //run end of turn procedure
+                    endTurn();
 
                 default:
                     break;
