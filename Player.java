@@ -8,7 +8,7 @@ public class Player {
     private int modFingers;
     private boolean isAlive;
 
-
+    
     private ArrayList<Hand> handArrayList = new ArrayList<>();
 
 
@@ -83,7 +83,7 @@ public class Player {
         return isAlive;
     }
 
-    
+
     //getters
     public String getDisplayName() {
         return displayName;

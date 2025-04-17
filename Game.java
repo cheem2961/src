@@ -51,6 +51,22 @@ public class Game extends Application {
                     actor.getCurrentPlayer().swapHands(Direction.RIGHT);
                     System.out.println(actor.getCurrentPlayer());
                     break;
+                case Q:
+                    //tap wth current player's left hand
+                    //check no swaps have been made
+                    //turn on tapping mode
+                    //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
+                    //find number of fingers being tapped with
+                case E:
+                    //tap wth current player's right hand
+                    //same as above
+                case SPACE:
+                    //confirm
+                    //check final swap is valid
+                    //run end of turn procedure:
+                        //check for deaths
+                        //update prev fingers
+                        //switch players
                 default:
                     break;
             }
