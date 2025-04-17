@@ -82,6 +82,15 @@ public class GameController {
 
     }
 
+    public void tryEndTurn(){
+        if(currentPlayer.checkHandsChanged()){
+            endTurn();
+        }
+        else{
+            System.out.println("invalid move, turn could not be ended");
+        }
+    }
+
     public void endTurn(){
         //loop through players
         for (Player player : players) {
@@ -120,7 +129,7 @@ public class GameController {
                     //confirm
                     //check final swap is valid
                     //run end of turn procedure
-                    endTurn();
+                    tryEndTurn();
 
                 default:
                     break;

@@ -71,10 +71,10 @@ public class Player {
     public boolean checkHandsChanged() {
         for(Hand hand : handArrayList){
             if (hand.getCurFingers() != hand.getPrevFingers()){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     // add up current fingers of all hands, if it = 0, player is dead
