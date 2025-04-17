@@ -1,3 +1,4 @@
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -13,7 +14,6 @@ public class Game extends Application {
     private static final int CANVAS_WIDTH = 800;
     private static final int CANVAS_HEIGHT = 800;
     private Canvas canvas;
-    private int rez = 16;
 
 
     public Game(){}
@@ -23,81 +23,36 @@ public class Game extends Application {
 
         GameController gameController = new GameController();
         gameController.setup();
-        gameController.getCurrentActor();
-
-
 
         Scene scene = new Scene(this.buildScene(), WINDOW_WIDTH, WINDOW_HEIGHT);
 
-
-        this.drawGame(gameController.getCurrentActor());
-        this.gameLoop(scene, gameController.getCurrentActor());
+        this.gameLoop(scene, gameController);
 
         primaryStage.setScene(scene);
         primaryStage.show();
 
 
-
     }
 
-    private void gameLoop(Scene scene, Actor actor) {
-        scene.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case A:
-                    actor.getCurrentPlayer().swapHands(Direction.LEFT);
-                    System.out.println(actor.getCurrentPlayer());
-                    break;
-                case D:
-                    actor.getCurrentPlayer().swapHands(Direction.RIGHT);
-                    System.out.println(actor.getCurrentPlayer());
-                    break;
-                case Q:
-                    //tap wth current player's left hand
-                    //check no swaps have been made
-                    //turn on tapping mode
-                    //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
-                    //find number of fingers being tapped with
-                case E:
-                    //tap wth current player's right hand
-                    //same as above
-                case SPACE:
-                    //confirm
-                    //check final swap is valid
-                    //run end of turn procedure:
-                        //check for deaths
-                        //update prev fingers
-                        //switch players
-                default:
-                    break;
+    private void gameLoop(Scene scene, GameController gameController) {
+
+        // Game loop using AnimationTimer
+        AnimationTimer loop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                //INSIDE THIS IS THE MAIN LOOP ------------------------
+
+                //all game events are updated in here
+                //e.g. drawing, listening for keys...
+                //in future, if we want a menu, there will be a menuController.update()
+                gameController.update(scene,canvas);
+
+
+
+                //END HERE --------------------------------------------
             }
-
-            // Optional: redraw after input
-            this.drawGame(actor);
-        });
-    }
-
-
-    public void drawGame(Actor actor) {
-        GraphicsContext gc = this.canvas.getGraphicsContext2D();
-        gc.clearRect((double)0.0F, (double)0.0F, this.canvas.getWidth(), this.canvas.getHeight());
-        gc.setFill(Color.GRAY);
-        gc.fillRect((double)0.0F, (double)0.0F, this.canvas.getWidth(), this.canvas.getHeight());
-
-        //current player's finger values
-        gc.setFill(Color.WHITE); // Text color
-        gc.setFont(javafx.scene.text.Font.font("Arial", 48));
-        gc.fillText(actor.getCurrentPlayer().toString(), 100, 700);
-
-        // display current player's (actors) name
-        gc.setFill(Color.WHITE); // Text color
-        gc.setFont(javafx.scene.text.Font.font("Arial", 30));
-        gc.fillText("player: " + actor.getCurrentPlayer().getDisplayName(), 350, 740);
-
-        // display other player's finger values
-
-
-        // display other player's name
-
+        };
+        loop.start();
     }
 
 
