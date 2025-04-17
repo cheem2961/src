@@ -102,6 +102,13 @@ public class Player {
         return handArrayList.get(1).getCurFingers();
     }
 
+    public void setLeftHandAmount(int amount) {
+        handArrayList.get(0).setCurFingers(amount);
+    }
+    public void setRightHandAmount(int amount) {
+        handArrayList.get(1).setCurFingers(amount);
+    }
+
 
     //getters
     public String getDisplayName() {

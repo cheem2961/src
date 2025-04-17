@@ -13,6 +13,8 @@ public class GameController {
     private int modFingers = 5;
 
     private int turnIndex = 0;
+    private boolean tappingMode = false; //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
+    private int tapAmount;
     private Player currentPlayer;
     private Player opponentPlayer;
     private Image[] playerHandImages;
@@ -72,8 +74,8 @@ public class GameController {
         gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 6], 150, 350, 650 * 1.4,650); //right hand
 
         //opponents hands
-        gc.drawImage(playerHandImages[opponentPlayer.getRightHandAmount()], -260, 440, (650 * 1.4),-650); //right hand (top left of the screen)
-        gc.drawImage(playerHandImages[opponentPlayer.getLeftHandAmount() + 6], 150, 440, 650 * 1.4,-650); //(left hand (top right of the screen
+        gc.drawImage(playerHandImages[opponentPlayer.getLeftHandAmount()], -260, 440, (650 * 1.4),-650); //right hand (top left of the screen)
+        gc.drawImage(playerHandImages[opponentPlayer.getRightHandAmount() + 6], 150, 440, 650 * 1.4,-650); //(left hand (top right of the screen
 
 
 
@@ -127,23 +129,46 @@ public class GameController {
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case A:
-                    this.currentPlayer.swapHands(Direction.LEFT);
-                    System.out.println("Swapped hands LEFT");
+                    if (tappingMode) {
+                        int newFingers = (opponentPlayer.getLeftHandAmount() + tapAmount) % modFingers;
+                        opponentPlayer.setLeftHandAmount(newFingers);
+                        System.out.println("tapping opponents left hand to give new value of " + newFingers);
+                        tappingMode = false;
+                        endTurn();
+                    }
+                    else {
+                        this.currentPlayer.swapHands(Direction.LEFT);
+                        System.out.println("Swapped hands LEFT");
+                    }
                     break;
                 case D:
-                    this.currentPlayer.swapHands(Direction.RIGHT);
-                    System.out.println("Swapped hands RIGHT");
+                    if (tappingMode) {
+                        int newFingers = (opponentPlayer.getRightHandAmount() + tapAmount) % modFingers;
+                        opponentPlayer.setRightHandAmount(newFingers);
+                        System.out.println("tapping opponents right hand to give new value of " + newFingers);
+                        tappingMode = false;
+                        endTurn();
+                    }
+                    else {
+                        this.currentPlayer.swapHands(Direction.RIGHT);
+                        System.out.println("Swapped hands RIGHT");
+                    }
                     break;
                 case Q:
                     //tap wth current player's left hand
-                    //check no swaps have been made
-                    //turn on tapping mode
-                    //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
-                    //find number of fingers being tapped with
+                    if(!currentPlayer.checkHandsChanged() & !(currentPlayer.getLeftHandAmount()==0)) { //check no swaps have been made
+                        tappingMode = true; //turn on tapping mode
+                        tapAmount = currentPlayer.getLeftHandAmount();
+                        System.out.println("tapping mode with left hand and "+tapAmount+" fingers");
+                    }
                     break;
                 case E:
                     //tap wth current player's right hand
-                    //same as above
+                    if(!currentPlayer.checkHandsChanged() & !(currentPlayer.getRightHandAmount()==0)) { //check no swaps have been made
+                        tappingMode = true; //turn on tapping mode
+                        tapAmount = currentPlayer.getRightHandAmount();
+                        System.out.println("tapping mode with right hand and "+tapAmount+" fingers");
+                    }
                     break;
                 case SPACE:
                     //confirm

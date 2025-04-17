@@ -19,6 +19,10 @@ public class Hand {
         return prevFingers;
     }
 
+    public void setCurFingers(int aCurFingers) {
+        this.curFingers = aCurFingers;
+    }
+
     public void turnEnd(){
         prevFingers = curFingers;
 
