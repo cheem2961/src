@@ -11,18 +11,19 @@ public class GameController {
     private int playerCount = 2;
     private int modFingers = 5;
 
+    private int turnIndex = 0;
     private Player currentPlayer;
 
     public GameController() {
         //empty constructor for now
     }
 
-    //making the players and setting the current actor (likely player 1)
+    //making the players
     public void setup() {
         for (int i = 1; i <= this.playerCount; i++) {
             this.players.add(new Player(String.valueOf(i),this.modFingers));
         }
-        currentPlayer = this.players.get(0);
+        currentPlayer = this.players.get(turnIndex);
     }
 
     public void update(Scene scene, Canvas canvas) {
@@ -59,7 +60,13 @@ public class GameController {
 
     }
 
+    public void endTurn(){
+        //check for deaths
+        //update prev fingers
 
+        //switch players
+        this.turnIndex = (this.turnIndex + 1) % this.playerCount;
+    }
 
     public void keyListen(Scene scene) {
         scene.setOnKeyPressed(event -> {
@@ -85,9 +92,7 @@ public class GameController {
                     //confirm
                     //check final swap is valid
                     //run end of turn procedure:
-                    //check for deaths
-                    //update prev fingers
-                    //switch players
+
                 default:
                     break;
             }
