@@ -11,7 +11,7 @@ public class GameController {
     private int playerCount = 2;
     private int modFingers = 5;
 
-    private Actor actor;
+    private Player currentPlayer;
 
     public GameController() {
         //empty constructor for now
@@ -22,12 +22,12 @@ public class GameController {
         for (int i = 1; i <= this.playerCount; i++) {
             this.players.add(new Player(String.valueOf(i),this.modFingers));
         }
-        actor = new Actor(players.get(0));
+        currentPlayer = this.players.get(0);
     }
 
     public void update(Scene scene, Canvas canvas) {
         //Listening for keys and performs their dedicated function
-        actor.keyListen(scene);
+        this.keyListen(scene);
 
         //draws
         this.draw(scene, canvas);
@@ -44,12 +44,12 @@ public class GameController {
         //current player's finger values
         gc.setFill(Color.WHITE); //Text color
         gc.setFont(javafx.scene.text.Font.font("Arial", 48));
-        gc.fillText(actor.getCurrentPlayer().toString(), 100, 700);
+        gc.fillText(currentPlayer.toString(), 100, 700);
 
         // display current player's (actors) name
         gc.setFill(Color.WHITE); //Text color
         gc.setFont(javafx.scene.text.Font.font("Arial", 30));
-        gc.fillText("player: " + actor.getCurrentPlayerName(), 350, 740);
+        gc.fillText("player: " + currentPlayer.getDisplayName(), 350, 740);
 
         // display other player's finger values
         //...
@@ -57,5 +57,43 @@ public class GameController {
         // display other player's name
         //...
 
+    }
+
+
+
+    public void keyListen(Scene scene) {
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case A:
+                    this.currentPlayer.swapHands(Direction.LEFT);
+                    System.out.println("Swapped hands LEFT");
+                    break;
+                case D:
+                    this.currentPlayer.swapHands(Direction.RIGHT);
+                    System.out.println("Swapped hands RIGHT");
+                    break;
+                case Q:
+                    //tap wth current player's left hand
+                    //check no swaps have been made
+                    //turn on tapping mode
+                    //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
+                    //find number of fingers being tapped with
+                case E:
+                    //tap wth current player's right hand
+                    //same as above
+                case SPACE:
+                    //confirm
+                    //check final swap is valid
+                    //run end of turn procedure:
+                    //check for deaths
+                    //update prev fingers
+                    //switch players
+                default:
+                    break;
+            }
+
+            // Optional: redraw after input
+            //this.drawGame(actor);
+        });
     }
 }

@@ -26,6 +26,40 @@ public class Player {
     }
 
 
+    public void swapHands(Direction aDirection){
+        Hand handFrom;
+        Hand handTo;
+        ArrayList<Hand> handArrayList = getHandArrayList();
+        switch(aDirection){
+            case LEFT: //move 1 from right hand to left hand
+                handFrom = handArrayList.get(1);
+                handTo = handArrayList.get(0);
+
+                if(checkValidSwap(handFrom, handTo)){
+                    handFrom.removeOne();
+                    handTo.addOne();
+                }
+                break;
+            case RIGHT: //move 1 from left hand to right hand
+                handFrom = handArrayList.get(0);
+                handTo = handArrayList.get(1);
+
+                if(checkValidSwap(handFrom, handTo)){
+                    handFrom.removeOne();
+                    handTo.addOne();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    // check a finger swap does not result in an empty or more than full hand
+    public boolean checkValidSwap(Hand handFrom, Hand handTo){
+        return !(handFrom.getCurFingers() <= 0 || handTo.getCurFingers() >= modFingers - 1 );
+    }
+
+
     // returns true if current hands are equal to prev
     public boolean checkHandsChanged() {
         for(Hand hand : handArrayList){

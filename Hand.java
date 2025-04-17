@@ -26,6 +26,7 @@ public class Hand {
     public void recall(){
         curFingers = prevFingers;
     }
+
     public void tap(int aValue){
         curFingers += aValue;
         curFingers %= modFingers;
