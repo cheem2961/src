@@ -31,6 +31,7 @@ public class Hand {
         curFingers += aValue;
         curFingers %= modFingers;
     }
+
     public void addOne(){
         curFingers ++;
     }

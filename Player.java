@@ -21,7 +21,7 @@ public class Player {
 
         // create hands and add to handArrayList
         for(int i = 0; i <= handAmount; i++){
-            handArrayList.add(new Hand(this.modFingers,1));
+            handArrayList.add(new Hand(this.modFingers,2));
         }
     }
 
@@ -80,6 +80,13 @@ public class Player {
             isAlive = false;
         }
         return isAlive;
+    }
+
+    public int getLeftHandAmount() {
+        return handArrayList.get(0).getCurFingers();
+    }
+    public int getRightHandAmount() {
+        return handArrayList.get(1).getCurFingers();
     }
 
 

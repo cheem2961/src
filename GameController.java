@@ -1,6 +1,7 @@
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class GameController {
     private int modFingers = 5;
 
     private Player currentPlayer;
+    private Image[] playerHandImages;
 
     public GameController() {
         //empty constructor for now
@@ -23,7 +25,24 @@ public class GameController {
             this.players.add(new Player(String.valueOf(i),this.modFingers));
         }
         currentPlayer = this.players.get(0);
+
+
+        playerHandImages = new Image[] {
+                new Image("L0.png"),
+                new Image("L1.png"),
+                new Image("L2.png"),
+                new Image("L3.png"),
+                new Image("L4.png"),
+                new Image("L5.png"),
+                new Image("R0.png"),
+                new Image("R1.png"),
+                new Image("R2.png"),
+                new Image("R3.png"),
+                new Image("R4.png"),
+                new Image("R5.png")
+        };
     }
+
 
     public void update(Scene scene, Canvas canvas) {
         //Listening for keys and performs their dedicated function
@@ -41,10 +60,13 @@ public class GameController {
         gc.setFill(Color.GRAY);
         gc.fillRect((double)0.0F, (double)0.0F, canvas.getWidth(), canvas.getHeight());
 
-        //current player's finger values
-        gc.setFill(Color.WHITE); //Text color
-        gc.setFont(javafx.scene.text.Font.font("Arial", 48));
-        gc.fillText(currentPlayer.toString(), 100, 700);
+
+
+
+        //DRAW IMAGES
+        gc.drawImage(playerHandImages[currentPlayer.getLeftHandAmount()], -260, 350, 650 * 1.4,650);
+        gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 6], 150, 350, 650 * 1.4,650);
+
 
         // display current player's (actors) name
         gc.setFill(Color.WHITE); //Text color
