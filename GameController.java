@@ -98,7 +98,9 @@ public class GameController {
     }
 
     public void tryEndTurn(){
-        if(currentPlayer.checkHandsChanged()){
+        boolean validMove = currentPlayer.checkHandsChanged() & !currentPlayer.checkSymetricSwap();
+        //add  '|| otherPlayer.checkHandsChanged()' to allow turn end after a tap move
+        if(validMove){
             endTurn();
         }
         else{
