@@ -14,6 +14,7 @@ public class GameController {
 
     private int turnIndex = 0;
     private Player currentPlayer;
+    private Player opponentPlayer;
     private Image[] playerHandImages;
 
     public GameController() {
@@ -26,6 +27,7 @@ public class GameController {
             this.players.add(new Player(String.valueOf(i),this.modFingers));
         }
         currentPlayer = this.players.get(turnIndex);
+        opponentPlayer = this.players.get(turnIndex+1 % this.playerCount);
 
 
         playerHandImages = new Image[] {
@@ -65,14 +67,27 @@ public class GameController {
 
 
         //DRAW IMAGES
-        gc.drawImage(playerHandImages[currentPlayer.getLeftHandAmount()], -260, 350, 650 * 1.4,650);
-        gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 6], 150, 350, 650 * 1.4,650);
+        //curent players hands
+        gc.drawImage(playerHandImages[currentPlayer.getLeftHandAmount()], -260, 350, 650 * 1.4,650); //left hand
+        gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 6], 150, 350, 650 * 1.4,650); //right hand
+
+        //opponents hands
+        gc.drawImage(playerHandImages[opponentPlayer.getRightHandAmount()], -260, 440, (650 * 1.4),-650); //right hand (top left of the screen)
+        gc.drawImage(playerHandImages[opponentPlayer.getLeftHandAmount() + 6], 150, 440, 650 * 1.4,-650); //(left hand (top right of the screen
+
 
 
         // display current player's (actors) name
         gc.setFill(Color.WHITE); //Text color
         gc.setFont(javafx.scene.text.Font.font("Arial", 30));
         gc.fillText("player: " + currentPlayer.getDisplayName(), 350, 740);
+
+        // display opponents player's (actors) name
+        gc.setFill(Color.WHITE); //Text color
+        gc.setFont(javafx.scene.text.Font.font("Arial", 30));
+        gc.fillText("player: " + opponentPlayer.getDisplayName(), 350, 200);
+
+
 
         // display other player's finger values
         //...
@@ -102,6 +117,7 @@ public class GameController {
         //switch players
         this.turnIndex = (this.turnIndex + 1) % this.playerCount;
         this.currentPlayer = this.players.get(turnIndex);
+        opponentPlayer = this.players.get((turnIndex+1 )% this.playerCount);
         System.out.println("turn ended. Player turn index: " + this.turnIndex);
     }
 

@@ -106,6 +106,9 @@ public class Player {
     public String getDisplayName() {
         return displayName;
     }
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
     public ArrayList<Hand> getHandArrayList() {
         return handArrayList;
     }
