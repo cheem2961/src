@@ -84,15 +84,12 @@ public class Player {
     }
 
     // add up current fingers of all hands, if it = 0, player is dead
-    public boolean isAlive() {
-        int totalFingers = 0;
+    public int totalFingers() {
+        int totalFingers = -2;  // i have no idea why this has to be -2 but it does
         for(Hand hand : handArrayList){
             totalFingers += hand.getCurFingers();
         }
-        if (totalFingers == 0){
-            isAlive = false;
-        }
-        return isAlive;
+        return totalFingers;
     }
 
     public int getLeftHandAmount() {

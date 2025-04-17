@@ -103,8 +103,6 @@ public class GameController {
     public void endTurn(){
         //loop through players
         for (Player player : players) {
-            //check for deaths
-            player.isAlive();
             //update prev fingers
             player.turnEnd();
         }
@@ -115,18 +113,52 @@ public class GameController {
         System.out.println("turn ended. Player turn index: " + this.turnIndex);
     }
 
+    public void checkOpponentDeath(){
+        System.out.println("Opponent death has been checked. total fingers = " + opponentPlayer.totalFingers());
+        if (opponentPlayer.totalFingers()==0) {
+            System.out.println("player "opponentPlayer.getDisplayName() + " is dead, player " + currentPlayer.getDisplayName() + "has won");
+            endTurn();
+        }
+    }
+
+    public void endRound(){
+        System.out.println("Round ended");
+    }
+
+    public void tapLeft(){
+        if (opponentPlayer.getLeftHandAmount() != 0) {
+            int newFingers = (opponentPlayer.getLeftHandAmount() + tapAmount) % modFingers;
+            opponentPlayer.setLeftHandAmount(newFingers);
+            System.out.println("tapping opponents left hand to give new value of " + newFingers);
+            tappingMode = false;
+            checkOpponentDeath();
+            endTurn();
+        }
+        else{
+            System.out.println("couldnt tap opponent's left hand becuase it is empty");
+        }
+    }
+
+    public void tapRight(){
+        if (opponentPlayer.getRightHandAmount()!=0){
+            int newFingers = (opponentPlayer.getRightHandAmount() + tapAmount) % modFingers;
+            opponentPlayer.setRightHandAmount(newFingers);
+            System.out.println("tapping opponents right hand to give new value of " + newFingers);
+            tappingMode = false;
+            checkOpponentDeath();
+            endTurn();
+        }
+        else{
+            System.out.println("couldnt tap opponent's right hand becuase it is empty");
+        }
+    }
+
     public void keyListen(Scene scene) {
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case A:
                     if (tappingMode) {
-                        if (opponentPlayer.getLeftHandAmount() != 0) {
-                            int newFingers = (opponentPlayer.getLeftHandAmount() + tapAmount) % modFingers;
-                            opponentPlayer.setLeftHandAmount(newFingers);
-                            System.out.println("tapping opponents left hand to give new value of " + newFingers);
-                            tappingMode = false;
-                            endTurn();
-                        }
+                        tapLeft();
                     }
                     else {
                         this.currentPlayer.swapHands(Direction.LEFT);
@@ -135,13 +167,7 @@ public class GameController {
                     break;
                 case D:
                     if (tappingMode) {
-                        if (opponentPlayer.getRightHandAmount()!=0){
-                            int newFingers = (opponentPlayer.getRightHandAmount() + tapAmount) % modFingers;
-                            opponentPlayer.setRightHandAmount(newFingers);
-                            System.out.println("tapping opponents right hand to give new value of " + newFingers);
-                            tappingMode = false;
-                            endTurn();
-                        }
+                        tapRight();
                     }
                     else {
                         this.currentPlayer.swapHands(Direction.RIGHT);
