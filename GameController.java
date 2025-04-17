@@ -83,9 +83,13 @@ public class GameController {
     }
 
     public void endTurn(){
-        //check for deaths
-        //update prev fingers
-
+        //loop through players
+        for (Player player : players) {
+            //check for deaths
+            player.isAlive();
+            //update prev fingers
+            player.turnEnd();
+        }
         //switch players
         this.turnIndex = (this.turnIndex + 1) % this.playerCount;
     }

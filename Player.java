@@ -25,6 +25,13 @@ public class Player {
         }
     }
 
+    
+    public void turnEnd(){
+        for(Hand hand : handArrayList){
+            hand.turnEnd();
+        }
+    }
+
 
     public void swapHands(Direction aDirection){
         Hand handFrom;
