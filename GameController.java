@@ -18,6 +18,7 @@ public class GameController {
     private Player currentPlayer;
     private Player opponentPlayer;
     private Image[] playerHandImages;
+    private Image[] backgroundImages;
 
     public GameController() {
         //empty constructor for now
@@ -46,6 +47,10 @@ public class GameController {
                 new Image("R4.png"),
                 new Image("R5.png")
         };
+
+        backgroundImages = new Image[] {
+                new Image("carpet.jpg")
+        };
     }
 
 
@@ -62,20 +67,25 @@ public class GameController {
 
         //refreshes screen
         gc.clearRect((double)0.0F, (double)0.0F, canvas.getWidth(), canvas.getHeight());
-        gc.setFill(Color.GRAY);
+        gc.setFill(Color.DARKSLATEGRAY);
         gc.fillRect((double)0.0F, (double)0.0F, canvas.getWidth(), canvas.getHeight());
 
 
 
 
         //DRAW IMAGES
+
+        //background
+        //hallway
+        //gc.drawImage(backgroundImages[0], -400, -400,1600,1600);
+
         //curent players hands
         gc.drawImage(playerHandImages[currentPlayer.getLeftHandAmount()], -260, 350, 650 * 1.4,650); //left hand
         gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 6], 150, 350, 650 * 1.4,650); //right hand
 
         //opponents hands
         gc.drawImage(playerHandImages[opponentPlayer.getLeftHandAmount()], -260, 440, (650 * 1.4),-650); //right hand (top left of the screen)
-        gc.drawImage(playerHandImages[opponentPlayer.getRightHandAmount() + 6], 150, 440, 650 * 1.4,-650); //(left hand (top right of the screen
+        gc.drawImage(playerHandImages[opponentPlayer.getRightHandAmount() + 6], 140, 440, 650 * 1.4,-650); //(left hand (top right of the screen
 
 
 
@@ -116,7 +126,7 @@ public class GameController {
     public void checkOpponentDeath(){
         System.out.println("Opponent death has been checked. total fingers = " + opponentPlayer.totalFingers());
         if (opponentPlayer.totalFingers()==0) {
-            System.out.println("player "opponentPlayer.getDisplayName() + " is dead, player " + currentPlayer.getDisplayName() + "has won");
+            System.out.println("player " + opponentPlayer.getDisplayName() + " is dead, player " + currentPlayer.getDisplayName() + "has won");
             endTurn();
         }
     }
