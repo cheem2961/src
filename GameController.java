@@ -88,20 +88,10 @@ public class GameController {
         gc.setFill(Color.WHITE); //Text color
         gc.setFont(javafx.scene.text.Font.font("Arial", 30));
         gc.fillText("player: " + opponentPlayer.getDisplayName(), 350, 200);
-
-
-
-        // display other player's finger values
-        //...
-
-        // display other player's name
-        //...
-
     }
 
     public void tryEndTurn(){
         boolean validMove = currentPlayer.checkHandsChanged() & !currentPlayer.checkSymetricSwap();
-        //add  '|| otherPlayer.checkHandsChanged()' to allow turn end after a tap move
         if(validMove){
             endTurn();
         }
@@ -130,11 +120,13 @@ public class GameController {
             switch (event.getCode()) {
                 case A:
                     if (tappingMode) {
-                        int newFingers = (opponentPlayer.getLeftHandAmount() + tapAmount) % modFingers;
-                        opponentPlayer.setLeftHandAmount(newFingers);
-                        System.out.println("tapping opponents left hand to give new value of " + newFingers);
-                        tappingMode = false;
-                        endTurn();
+                        if (opponentPlayer.getLeftHandAmount() != 0) {
+                            int newFingers = (opponentPlayer.getLeftHandAmount() + tapAmount) % modFingers;
+                            opponentPlayer.setLeftHandAmount(newFingers);
+                            System.out.println("tapping opponents left hand to give new value of " + newFingers);
+                            tappingMode = false;
+                            endTurn();
+                        }
                     }
                     else {
                         this.currentPlayer.swapHands(Direction.LEFT);
@@ -143,11 +135,13 @@ public class GameController {
                     break;
                 case D:
                     if (tappingMode) {
-                        int newFingers = (opponentPlayer.getRightHandAmount() + tapAmount) % modFingers;
-                        opponentPlayer.setRightHandAmount(newFingers);
-                        System.out.println("tapping opponents right hand to give new value of " + newFingers);
-                        tappingMode = false;
-                        endTurn();
+                        if (opponentPlayer.getRightHandAmount()!=0){
+                            int newFingers = (opponentPlayer.getRightHandAmount() + tapAmount) % modFingers;
+                            opponentPlayer.setRightHandAmount(newFingers);
+                            System.out.println("tapping opponents right hand to give new value of " + newFingers);
+                            tappingMode = false;
+                            endTurn();
+                        }
                     }
                     else {
                         this.currentPlayer.swapHands(Direction.RIGHT);
