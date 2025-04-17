@@ -25,19 +25,7 @@ public class Player {
         }
     }
 
-    // add up current fingers of all hands, if it = 0, player is dead
-    public boolean isAlive() {
-        int totalFingers = 0;
-        for(Hand hand : handArrayList){
-           totalFingers += hand.getCurFingers();
-        }
 
-        if (totalFingers == 0){
-            isAlive = false;
-        }
-
-        return isAlive;
-    }
 
     public void swapHands(Direction aDirection){
         Hand handFrom;
@@ -66,10 +54,37 @@ public class Player {
         }
     }
 
+
+    // checks
     // check a finger swap does not result in an empty or more than full hand
     public boolean checkValidSwap(Hand handFrom, Hand handTo){
         return !(handFrom.getCurFingers() <= 0 || handTo.getCurFingers() >= modFingers - 1 );
     }
+
+    // returns true if current hands are equal to prev
+    public boolean checkHandsChanged() {
+        for(Hand hand : handArrayList){
+            if (hand.getCurFingers() != hand.getPrevFingers()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // add up current fingers of all hands, if it = 0, player is dead
+    public boolean isAlive() {
+        int totalFingers = 0;
+        for(Hand hand : handArrayList){
+            totalFingers += hand.getCurFingers();
+        }
+        if (totalFingers == 0){
+            isAlive = false;
+        }
+        return isAlive;
+    }
+
+    
+    //getters
     public String getDisplayName() {
         return displayName;
     }
