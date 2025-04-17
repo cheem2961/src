@@ -69,8 +69,13 @@ public class Player {
 
     // returns true if current hands are equal to prev
     public boolean checkHandsChanged() {
+        // check hands havent just ben swapped into symetrical position. only works for 2 hands
+        if(handArrayList.get(0).getCurFingers() == handArrayList.get(1).getPrevFingers()){
+            return false;
+        }
+        // check hands have changed at all
         for(Hand hand : handArrayList){
-            if (hand.getCurFingers() != hand.getPrevFingers()){
+            if (hand.getCurFingers() != hand.getPrevFingers() ){
                 return true;
             }
         }
