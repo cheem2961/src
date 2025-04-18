@@ -20,8 +20,8 @@ public class Player {
         this.isAlive = true;
 
         // create hands and add to handArrayList
-        for(int i = 0; i <= handAmount; i++){
-            handArrayList.add(new Hand(this.modFingers,2));
+        for(int i = 0; i < handAmount; i++){
+            handArrayList.add(new Hand(this.modFingers,1));
         }
     }
 
@@ -85,7 +85,7 @@ public class Player {
 
     // add up current fingers of all hands, if it = 0, player is dead
     public int totalFingers() {
-        int totalFingers = -2;  // i have no idea why this has to be -2 but it does
+        int totalFingers = 0;
         for(Hand hand : handArrayList){
             totalFingers += hand.getCurFingers();
         }

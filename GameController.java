@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class GameController {
     private ArrayList<Player> players = new ArrayList<>();
     private int playerCount = 2;
-    private int modFingers = 5;
+    private int modFingers = 6;
 
     private int turnIndex = 0;
     private boolean tappingMode = false; //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
@@ -113,7 +113,7 @@ public class GameController {
             player.turnEnd();
         }
         //draw eveything
-        
+
         wait(400); //pause
         //switch players
         this.turnIndex = (this.turnIndex + 1) % this.playerCount;
