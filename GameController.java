@@ -98,7 +98,7 @@ public class GameController {
             gc.fillText("TAPPING MODE!", 280, 420);
             gc.setFill(Color.WHITE);
             gc.setFont(javafx.scene.text.Font.font("Arial", 15));
-            gc.fillText("Click 'A' to select opponents left finger!\nClick 'd' to select opponents right finger!", 280, 435);
+            gc.fillText("Click 'A' to select opponents left finger!\nClick 'D' to select opponents right finger!", 280, 435);
         }
         else if (swappingMode) {
             // display current player's (actors) name
@@ -115,7 +115,7 @@ public class GameController {
             gc.fillText("CHOOSE YOUR ACTION!", 250, 420);
             gc.setFill(Color.WHITE);
             gc.setFont(javafx.scene.text.Font.font("Arial", 15));
-            gc.fillText("Click 'Q' or 'A' to enter tapping mode\nClick 'A' or 'D' to enter swapping mode", 280, 435);
+            gc.fillText("Click 'Q' or 'E' to enter tapping mode\nClick 'A' or 'D' to enter swapping mode", 280, 435);
         }
 
 
@@ -275,7 +275,7 @@ public class GameController {
                     break;
                 case Q:
                     //tap wth current player's left hand
-                    if (!currentPlayer.checkHandsChanged() && !(currentPlayer.getLeftHandAmount() == 0)) { //check no swaps have been made
+                    if (!currentPlayer.checkHandsChanged() && !(currentPlayer.getLeftHandAmount() == 0) && !tappingMode) { //check no swaps have been made
                         tappingMode = true; //turn on tapping mode
                         highlightedHand[0] = true;
                         tapAmount = currentPlayer.getLeftHandAmount();
@@ -284,7 +284,7 @@ public class GameController {
                     break;
                 case E:
                     //tap wth current player's right hand
-                    if (!currentPlayer.checkHandsChanged() && !(currentPlayer.getRightHandAmount() == 0)) { //check no swaps have been made
+                    if (!currentPlayer.checkHandsChanged() && !(currentPlayer.getRightHandAmount() == 0) && !tappingMode) { //check no swaps have been made
                         tappingMode = true; //turn on tapping mode
                         highlightedHand[1] = true;
                         tapAmount = currentPlayer.getRightHandAmount();
