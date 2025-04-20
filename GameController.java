@@ -15,6 +15,8 @@ public class GameController {
     private int turnIndex = 0;
     private boolean tappingMode = false; //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
     private boolean swappingMode = false;
+    private boolean[] highlightedHand = new boolean[2];
+
     private int tapAmount;
     private Player currentPlayer;
     private Player opponentPlayer;
@@ -49,7 +51,24 @@ public class GameController {
                 new Image("R2.png"),
                 new Image("R3.png"),
                 new Image("R4.png"),
-                new Image("R5.png")
+                new Image("R5.png"),
+                new Image("L0H.png"),
+                new Image("L1H.png"),
+                new Image("L2H.png"),
+                new Image("L3H.png"),
+                new Image("L4H.png"),
+                new Image("L5H.png"),
+                new Image("R0H.png"),
+                new Image("R1H.png"),
+                new Image("R2H.png"),
+                new Image("R3H.png"),
+                new Image("R4H.png"),
+                new Image("R5H.png")
+        };
+
+        highlightedHand = new boolean[]{
+                false,
+                false
         };
 
         backgroundImages = new Image[]{
@@ -98,6 +117,17 @@ public class GameController {
             gc.setFont(javafx.scene.text.Font.font("Arial", 15));
             gc.fillText("Click 'Q' or 'A' to enter tapping mode\nClick 'A' or 'D' to enter swapping mode", 280, 435);
         }
+
+
+        // display current player's (actors) name
+        gc.setFill(Color.WHITE); //Text color
+        gc.setFont(javafx.scene.text.Font.font("Arial", 30));
+        gc.fillText("player: " + currentPlayer.getDisplayName(), 350, 670);
+
+        // display opponents player's (actors) name
+        gc.setFill(Color.WHITE); //Text color
+        gc.setFont(javafx.scene.text.Font.font("Arial", 30));
+        gc.fillText("player: " + opponentPlayer.getDisplayName(), 350, 200);
     }
 
     public void drawGame(Scene scene, Canvas canvas) {
@@ -116,23 +146,27 @@ public class GameController {
         //gc.drawImage(backgroundImages[0], -400, -400,1600,1600);
 
         //curent players hands
-        gc.drawImage(playerHandImages[currentPlayer.getLeftHandAmount()], -260, 350, 650 * 1.4, 650); //left hand
-        gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 6], 150, 350, 650 * 1.4, 650); //right hand
+
+        if (highlightedHand[0]) {
+            gc.drawImage(playerHandImages[currentPlayer.getLeftHandAmount() + 12], 0, 540, 280 * 1.4, 260); //left hand
+        }else{
+            gc.drawImage(playerHandImages[currentPlayer.getLeftHandAmount()], 0, 540, 280 * 1.4, 260); //left hand
+
+        }
+
+        if (highlightedHand[1]) {
+            gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 18], 410, 540, 280 * 1.4, 260);
+        }else {
+            gc.drawImage(playerHandImages[currentPlayer.getRightHandAmount() + 6], 410, 540, 280 * 1.4, 260); //right hand
+        }
+
 
         //opponents hands
-        gc.drawImage(playerHandImages[opponentPlayer.getLeftHandAmount()], -260, 440, (650 * 1.4), -650); //right hand (top left of the screen)
-        gc.drawImage(playerHandImages[opponentPlayer.getRightHandAmount() + 6], 140, 440, 650 * 1.4, -650); //(left hand (top right of the screen
+        gc.drawImage(playerHandImages[opponentPlayer.getLeftHandAmount()], 0, 250, (260 * 1.4), -260); //right hand (top left of the screen)
+        gc.drawImage(playerHandImages[opponentPlayer.getRightHandAmount() + 6], 430, 250, 260 * 1.4, -260); //(left hand (top right of the screen
 
 
-        // display current player's (actors) name
-        gc.setFill(Color.WHITE); //Text color
-        gc.setFont(javafx.scene.text.Font.font("Arial", 30));
-        gc.fillText("player: " + currentPlayer.getDisplayName(), 350, 740);
 
-        // display opponents player's (actors) name
-        gc.setFill(Color.WHITE); //Text color
-        gc.setFont(javafx.scene.text.Font.font("Arial", 30));
-        gc.fillText("player: " + opponentPlayer.getDisplayName(), 350, 200);
     }
 
     public void tryEndTurn() {
@@ -158,6 +192,8 @@ public class GameController {
         this.currentPlayer = this.players.get(turnIndex);
         this.opponentPlayer = this.players.get((turnIndex + 1) % this.playerCount);
         this.swappingMode = false;
+        highlightedHand[0] = false;
+        highlightedHand[1] = false;
         System.out.println("turn ended. Player turn index: " + this.turnIndex);
     }
 
@@ -179,6 +215,7 @@ public class GameController {
             opponentPlayer.setLeftHandAmount(newFingers);
             System.out.println("tapping opponents left hand to give new value of " + newFingers);
             tappingMode = false;
+            highlightedHand[0] = true;
             checkOpponentDeath();
             endTurn();
         } else {
@@ -192,6 +229,7 @@ public class GameController {
             opponentPlayer.setRightHandAmount(newFingers);
             System.out.println("tapping opponents right hand to give new value of " + newFingers);
             tappingMode = false;
+            highlightedHand[1] = true;
             checkOpponentDeath();
             endTurn();
         } else {
@@ -223,8 +261,6 @@ public class GameController {
                     if (tappingMode) {
                         tapRight();
                     } else {
-
-
                         this.currentPlayer.swapHands(Direction.RIGHT);
                         System.out.println("Swapped hands RIGHT");
 
@@ -241,6 +277,7 @@ public class GameController {
                     //tap wth current player's left hand
                     if (!currentPlayer.checkHandsChanged() && !(currentPlayer.getLeftHandAmount() == 0)) { //check no swaps have been made
                         tappingMode = true; //turn on tapping mode
+                        highlightedHand[0] = true;
                         tapAmount = currentPlayer.getLeftHandAmount();
                         System.out.println("tapping mode with left hand and " + tapAmount + " fingers");
                     }
@@ -249,6 +286,7 @@ public class GameController {
                     //tap wth current player's right hand
                     if (!currentPlayer.checkHandsChanged() && !(currentPlayer.getRightHandAmount() == 0)) { //check no swaps have been made
                         tappingMode = true; //turn on tapping mode
+                        highlightedHand[1] = true;
                         tapAmount = currentPlayer.getRightHandAmount();
                         System.out.println("tapping mode with right hand and " + tapAmount + " fingers");
                     }
@@ -264,8 +302,8 @@ public class GameController {
                     currentPlayer.getHandArrayList().get(1).recall();
                     swappingMode = false;
                     tappingMode = false;
-
                     break;
+
 
                 default:
                     break;
