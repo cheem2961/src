@@ -57,6 +57,7 @@ public class Player {
                 }
                 break;
             default:
+                System.out.println("Invalid direction");
                 break;
         }
     }

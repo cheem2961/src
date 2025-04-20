@@ -14,11 +14,15 @@ public class GameController {
 
     private int turnIndex = 0;
     private boolean tappingMode = false; //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
+    private boolean swappingMode = false;
     private int tapAmount;
     private Player currentPlayer;
     private Player opponentPlayer;
     private Image[] playerHandImages;
     private Image[] backgroundImages;
+
+
+    private GraphicsContext gc;
 
     public GameController() {
         //empty constructor for now
@@ -59,11 +63,45 @@ public class GameController {
         this.keyListen(scene);
 
         //draws
-        this.draw(scene, canvas);
+        this.gc = canvas.getGraphicsContext2D();
+        this.drawGame(scene, canvas);
+        this.drawUI(scene,canvas);
+
+
     }
 
-    public void draw(Scene scene, Canvas canvas) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+    public void drawUI(Scene scene, Canvas canvas) {
+
+        if (tappingMode) {
+            // display current player's (actors) name
+            gc.setFill(Color.RED); //Text color
+            gc.setFont(javafx.scene.text.Font.font("Arial", 30));
+            gc.fillText("TAPPING MODE!", 280, 420);
+            gc.setFill(Color.WHITE);
+            gc.setFont(javafx.scene.text.Font.font("Arial", 15));
+            gc.fillText("Click 'A' to select opponents left finger!\nClick 'd' to select opponents right finger!", 280, 435);
+        }
+        else if (swappingMode) {
+            // display current player's (actors) name
+            gc.setFill(Color.RED); //Text color
+            gc.setFont(javafx.scene.text.Font.font("Arial", 30));
+            gc.fillText("SWAPPING MODE!", 280, 420);
+            gc.setFill(Color.WHITE);
+            gc.setFont(javafx.scene.text.Font.font("Arial", 15));
+            gc.fillText("Click 'SPACEBAR' to confirm your swap!", 280, 435);
+        } else{
+            //neither modes, just options
+            gc.setFill(Color.RED); //Text color
+            gc.setFont(javafx.scene.text.Font.font("Arial", 30));
+            gc.fillText("CHOOSE YOUR ACTION!", 250, 420);
+            gc.setFill(Color.WHITE);
+            gc.setFont(javafx.scene.text.Font.font("Arial", 15));
+            gc.fillText("Click 'Q' or 'A' to enter tapping mode\nClick 'A' or 'D' to enter swapping mode", 280, 435);
+        }
+    }
+
+    public void drawGame(Scene scene, Canvas canvas) {
+
 
         //refreshes screen
         gc.clearRect((double) 0.0F, (double) 0.0F, canvas.getWidth(), canvas.getHeight());
@@ -100,7 +138,7 @@ public class GameController {
     public void tryEndTurn() {
         boolean validMove = currentPlayer.checkHandsChanged() & !currentPlayer.checkSymetricSwap();
         if (validMove) {
-            endTurn();
+            this.endTurn();
         } else {
             System.out.println("invalid move, turn could not be ended");
         }
@@ -119,6 +157,7 @@ public class GameController {
         this.turnIndex = (this.turnIndex + 1) % this.playerCount;
         this.currentPlayer = this.players.get(turnIndex);
         this.opponentPlayer = this.players.get((turnIndex + 1) % this.playerCount);
+        this.swappingMode = false;
         System.out.println("turn ended. Player turn index: " + this.turnIndex);
     }
 
@@ -167,21 +206,40 @@ public class GameController {
                     if (tappingMode) {
                         tapLeft();
                     } else {
+
                         this.currentPlayer.swapHands(Direction.LEFT);
                         System.out.println("Swapped hands LEFT");
+
+                        if (currentPlayer.checkHandsChanged()) {
+                            swappingMode = true;
+                            System.out.println(swappingMode);
+                        }else {
+                            swappingMode = false;
+                            System.out.println(swappingMode);
+                        }
                     }
                     break;
                 case D:
                     if (tappingMode) {
                         tapRight();
                     } else {
+
+
                         this.currentPlayer.swapHands(Direction.RIGHT);
                         System.out.println("Swapped hands RIGHT");
+
+                        if (currentPlayer.checkHandsChanged()) {
+                            swappingMode = true;
+                            System.out.println(swappingMode);
+                        }else {
+                            swappingMode = false;
+                            System.out.println(swappingMode);
+                        }
                     }
                     break;
                 case Q:
                     //tap wth current player's left hand
-                    if (!currentPlayer.checkHandsChanged() & !(currentPlayer.getLeftHandAmount() == 0)) { //check no swaps have been made
+                    if (!currentPlayer.checkHandsChanged() && !(currentPlayer.getLeftHandAmount() == 0)) { //check no swaps have been made
                         tappingMode = true; //turn on tapping mode
                         tapAmount = currentPlayer.getLeftHandAmount();
                         System.out.println("tapping mode with left hand and " + tapAmount + " fingers");
@@ -189,7 +247,7 @@ public class GameController {
                     break;
                 case E:
                     //tap wth current player's right hand
-                    if (!currentPlayer.checkHandsChanged() & !(currentPlayer.getRightHandAmount() == 0)) { //check no swaps have been made
+                    if (!currentPlayer.checkHandsChanged() && !(currentPlayer.getRightHandAmount() == 0)) { //check no swaps have been made
                         tappingMode = true; //turn on tapping mode
                         tapAmount = currentPlayer.getRightHandAmount();
                         System.out.println("tapping mode with right hand and " + tapAmount + " fingers");
@@ -200,6 +258,13 @@ public class GameController {
                     //check final swap is valid
                     //run end of turn procedure
                     tryEndTurn();
+                    break;
+                case R:
+                    currentPlayer.getHandArrayList().get(0).recall();
+                    currentPlayer.getHandArrayList().get(1).recall();
+                    swappingMode = false;
+                    tappingMode = false;
+
                     break;
 
                 default:
