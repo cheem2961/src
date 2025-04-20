@@ -302,6 +302,8 @@ public class GameController {
                     currentPlayer.getHandArrayList().get(1).recall();
                     swappingMode = false;
                     tappingMode = false;
+                    highlightedHand[0] = false;
+                    highlightedHand[1] = false;
                     break;
 
 
