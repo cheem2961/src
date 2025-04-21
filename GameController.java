@@ -85,12 +85,7 @@ public class GameController {
 
     public void update(Scene scene, Canvas canvas) {
         //Listening for keys and performs their dedicated function
-        if (!this.waitToEndTurn) {
-            this.keyListen(scene);
-        } else if (System.currentTimeMillis() > this.timeToEndTurn) {
-            endTurn();
-            this.waitToEndTurn = false;
-        }
+        this.keyListen(scene);
 
 
         //draws
@@ -155,6 +150,7 @@ public class GameController {
                     gc.setFont(javafx.scene.text.Font.font("Arial", 15));
                     gc.fillText("Click 'Q' or 'E' to enter tapping mode\nClick 'A' or 'D' to enter swapping mode", 280, 435);
                 }
+            break;
             default:
                 break;
         };
@@ -284,6 +280,14 @@ public class GameController {
 
     public void keyListen(Scene scene) {
         scene.setOnKeyPressed(event -> {
+            if (waitToEndTurn) {
+                if (System.currentTimeMillis() > this.timeToEndTurn) {
+                    endTurn();
+                    this.waitToEndTurn = false;
+                }
+                return;
+            }
+
             switch (event.getCode()) {
                 case A:
                     if (tappingMode) {
