@@ -127,6 +127,12 @@ public class GameController {
                     gc.setFill(Color.WHITE);
                     gc.setFont(javafx.scene.text.Font.font("Arial", 15));
                     gc.fillText("Click 'A' to select opponents left finger!\nClick 'D' to select opponents right finger!", 280, 435);
+                    gc.setFill(Color.WHITE);
+                    gc.setFont(javafx.scene.text.Font.font("Arial", 50));
+                    gc.fillText("A", 200, 285);
+                    gc.setFill(Color.WHITE);
+                    gc.setFont(javafx.scene.text.Font.font("Arial", 50));
+                    gc.fillText("D", 570, 285);
                 }
                 else if (swappingMode) {
                     // display current player's (actors) name
@@ -376,7 +382,6 @@ public class GameController {
             gc.clearRect(280, 400, 400, 50);
         });
         pause.play();
-
     }
 
 
