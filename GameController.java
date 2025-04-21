@@ -316,9 +316,9 @@ public class GameController {
                         tapAmount = currentPlayer.getLeftHandAmount();
                         System.out.println("tapping mode with left hand and " + tapAmount + " fingers");
                     }
-                    else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode && !tappingMode) {
+                    else if (currentPlayer.getLeftHandAmount() == 0 && !swappingMode && !tappingMode) {
                         currentInvalidMove = InvalidMove.EMPTY_HAND;
-                    }else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode && tappingMode) {
+                    }else if (!swappingMode && tappingMode) {
                         currentInvalidMove = InvalidMove.ALREADY_TAPPING;
                     }
                     break;
@@ -331,7 +331,7 @@ public class GameController {
                         System.out.println("tapping mode with right hand and " + tapAmount + " fingers");
                     } else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode && !tappingMode) {
                         currentInvalidMove = InvalidMove.EMPTY_HAND;
-                    }else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode && tappingMode) {
+                    }else if (!swappingMode && tappingMode) {
                         currentInvalidMove = InvalidMove.ALREADY_TAPPING;
                     }
                     break;
