@@ -1,5 +1,4 @@
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,6 +18,8 @@ public class GameController {
     private boolean tappingMode = false; //tapping mode causes active hand to be highlights and watch for user input to choose what hand to tap
     private boolean swappingMode = false;
     private boolean[] highlightedHand = new boolean[2];
+    private boolean waitToEndTurn = false;
+    private long timeToEndTurn = 0;
     private InvalidMove currentInvalidMove;
 
     private int tapAmount;
@@ -84,7 +85,13 @@ public class GameController {
 
     public void update(Scene scene, Canvas canvas) {
         //Listening for keys and performs their dedicated function
-        this.keyListen(scene);
+        if (!this.waitToEndTurn) {
+            this.keyListen(scene);
+        } else if (System.currentTimeMillis() > this.timeToEndTurn) {
+            endTurn();
+            this.waitToEndTurn = false;
+        }
+
 
         //draws
         this.gc = canvas.getGraphicsContext2D();
@@ -237,7 +244,8 @@ public class GameController {
             tappingMode = false;
             highlightedHand[0] = true;
             checkOpponentDeath();
-            endTurn();
+            this.waitToEndTurn = true;
+            this.timeToEndTurn = System.currentTimeMillis() + 500L;
         } else {
             System.out.println("couldnt tap opponent's left hand becuase it is empty");
             currentInvalidMove = InvalidMove.TAP_EMPTY;
@@ -253,7 +261,8 @@ public class GameController {
             tappingMode = false;
             highlightedHand[1] = true;
             checkOpponentDeath();
-            endTurn();
+            this.waitToEndTurn = true;
+            this.timeToEndTurn = System.currentTimeMillis() + 500L;
         } else {
             System.out.println("couldnt tap opponent's right hand becuase it is empty");
             currentInvalidMove = InvalidMove.TAP_EMPTY;
