@@ -245,10 +245,10 @@ public class GameController {
             opponentPlayer.setLeftHandAmount(newFingers);
             System.out.println("tapping opponents left hand to give new value of " + newFingers);
             tappingMode = false;
-            highlightedHand[0] = true;
+            //highlightedHand[0] = true;
             checkOpponentDeath();
             this.waitToEndTurn = true;
-            this.timeToEndTurn = System.currentTimeMillis() + 500L;
+            this.timeToEndTurn = System.currentTimeMillis() + 800L;
         } else {
             System.out.println("couldnt tap opponent's left hand becuase it is empty");
             currentInvalidMove = InvalidMove.TAP_EMPTY;
@@ -262,10 +262,10 @@ public class GameController {
             opponentPlayer.setRightHandAmount(newFingers);
             System.out.println("tapping opponents right hand to give new value of " + newFingers);
             tappingMode = false;
-            highlightedHand[1] = true;
+            //highlightedHand[1] = true;
             checkOpponentDeath();
             this.waitToEndTurn = true;
-            this.timeToEndTurn = System.currentTimeMillis() + 500L;
+            this.timeToEndTurn = System.currentTimeMillis() + 800L;
         } else {
             System.out.println("couldnt tap opponent's right hand becuase it is empty");
             currentInvalidMove = InvalidMove.TAP_EMPTY;
