@@ -93,7 +93,10 @@ public class GameController {
         this.drawGame(scene, canvas);
         this.drawUI(scene,canvas);
 
-
+        if (waitToEndTurn && System.currentTimeMillis() > this.timeToEndTurn) {
+            endTurn();
+            this.waitToEndTurn = false;
+        }
     }
 
     public void drawUI(Scene scene, Canvas canvas) {
@@ -281,10 +284,6 @@ public class GameController {
     public void keyListen(Scene scene) {
         scene.setOnKeyPressed(event -> {
             if (waitToEndTurn) {
-                if (System.currentTimeMillis() > this.timeToEndTurn) {
-                    endTurn();
-                    this.waitToEndTurn = false;
-                }
                 return;
             }
 
