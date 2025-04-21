@@ -3,4 +3,5 @@ public enum InvalidMove {
     TAP_EMPTY,
     NO_CHANGES,
     EMPTY_HAND,
+    ALREADY_TAPPING,
 }
