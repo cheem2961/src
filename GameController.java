@@ -114,9 +114,12 @@ public class GameController {
             case EMPTY_HAND:
                 pauseDrawInvalidMoves(gc,"HAND EMPTY!","Your chosen hand is empty");
                 break;
+            case ALREADY_TAPPING:
+                pauseDrawInvalidMoves(gc,"ALREADY TAPPING!","Are you tapped?");
+                break;
 
             case null:
-                if (tappingMode && currentInvalidMove == InvalidMove.MIRRORED) {
+                if (tappingMode) {
                     // display current player's (actors) name
                     gc.setFill(Color.RED); //Text color
                     gc.setFont(javafx.scene.text.Font.font("Arial", 30));
@@ -313,9 +316,10 @@ public class GameController {
                         tapAmount = currentPlayer.getLeftHandAmount();
                         System.out.println("tapping mode with left hand and " + tapAmount + " fingers");
                     }
-                    else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode) {
+                    else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode && !tappingMode) {
                         currentInvalidMove = InvalidMove.EMPTY_HAND;
-
+                    }else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode && tappingMode) {
+                        currentInvalidMove = InvalidMove.ALREADY_TAPPING;
                     }
                     break;
                 case E:
@@ -325,9 +329,10 @@ public class GameController {
                         highlightedHand[1] = true;
                         tapAmount = currentPlayer.getRightHandAmount();
                         System.out.println("tapping mode with right hand and " + tapAmount + " fingers");
-                    } else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode) {
+                    } else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode && !tappingMode) {
                         currentInvalidMove = InvalidMove.EMPTY_HAND;
-
+                    }else if (currentPlayer.getRightHandAmount() == 0 && !swappingMode && tappingMode) {
+                        currentInvalidMove = InvalidMove.ALREADY_TAPPING;
                     }
                     break;
                 case SPACE:
