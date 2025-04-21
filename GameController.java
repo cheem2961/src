@@ -222,14 +222,12 @@ public class GameController {
         }
         //draw eveything
 
-        wait(400); //pause
+        //wait(400); //pause
         //switch players
         this.turnIndex = (this.turnIndex + 1) % this.playerCount;
         this.currentPlayer = this.players.get(turnIndex);
         this.opponentPlayer = this.players.get((turnIndex + 1) % this.playerCount);
         this.swappingMode = false;
-        highlightedHand[0] = false;
-        highlightedHand[1] = false;
         System.out.println("turn ended. Player turn index: " + this.turnIndex);
     }
 
@@ -252,6 +250,8 @@ public class GameController {
             System.out.println("tapping opponents left hand to give new value of " + newFingers);
             tappingMode = false;
             //highlightedHand[0] = true;
+            highlightedHand[0] = false;
+            highlightedHand[1] = false;
             checkOpponentDeath();
             this.waitToEndTurn = true;
             this.timeToEndTurn = System.currentTimeMillis() + 800L;
@@ -269,6 +269,8 @@ public class GameController {
             System.out.println("tapping opponents right hand to give new value of " + newFingers);
             tappingMode = false;
             //highlightedHand[1] = true;
+            highlightedHand[0] = false;
+            highlightedHand[1] = false;
             checkOpponentDeath();
             this.waitToEndTurn = true;
             this.timeToEndTurn = System.currentTimeMillis() + 800L;
