@@ -21,7 +21,7 @@ public class Player {
 
         // create hands and add to handArrayList
         for(int i = 0; i < handAmount; i++){
-            handArrayList.add(new Hand(this.modFingers,2));
+            handArrayList.add(new Hand(this.modFingers,1));
         }
     }
 
