@@ -141,7 +141,11 @@ public class GameController {
                     gc.fillText("SWAPPING MODE!", 280, 420);
                     gc.setFill(Color.WHITE);
                     gc.setFont(javafx.scene.text.Font.font("Arial", 15));
-                    gc.fillText("Click 'SPACEBAR' to confirm your swap!", 280, 435);
+                    gc.fillText("Swap more or click 'SPACEBAR' to confirm your swap!", 280, 435);
+                } else if (waitToEndTurn) {
+                    gc.setFill(Color.RED); //Text color
+                    gc.setFont(javafx.scene.text.Font.font("Arial", 30));
+                    gc.fillText("YOU HAVE TAPPED!", 280, 420);
                 } else{
                     //neither modes, just options
                     gc.setFill(Color.RED); //Text color
@@ -249,7 +253,6 @@ public class GameController {
             opponentPlayer.setLeftHandAmount(newFingers);
             System.out.println("tapping opponents left hand to give new value of " + newFingers);
             tappingMode = false;
-            //highlightedHand[0] = true;
             highlightedHand[0] = false;
             highlightedHand[1] = false;
             checkOpponentDeath();
@@ -268,7 +271,6 @@ public class GameController {
             opponentPlayer.setRightHandAmount(newFingers);
             System.out.println("tapping opponents right hand to give new value of " + newFingers);
             tappingMode = false;
-            //highlightedHand[1] = true;
             highlightedHand[0] = false;
             highlightedHand[1] = false;
             checkOpponentDeath();
